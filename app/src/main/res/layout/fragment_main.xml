@@ -1,0 +1,82 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/laxmi_mata_blurr"
+    android:gravity="center_horizontal"
+    tools:context="sirfireydevs.rana.laxmiaartifordiwali.MainActivity$PlaceholderFragment" >
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+      	
+        android:gravity="center"
+        android:text="Jai Maa Laxmi"
+        
+        android:textSize="25sp" />
+ 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/lin_lay_mediabutton"
+        android:layout_below="@+id/heading" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/lyrics"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp" />
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/lin_lay_mediabutton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="3sp"
+        android:orientation="horizontal" >
+        <RelativeLayout 
+            android:id="@+id/play_relative"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+        <ImageButton
+            android:id="@+id/img_but_play"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:background="@null"
+            android:onClick="playSong"
+            android:src="@drawable/desktop_play" />
+
+        <ImageButton
+            android:id="@+id/img_but_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10sp"
+            android:layout_marginRight="10sp"
+            android:background="@null"
+            android:onClick="pauseSong"
+            android:visibility="gone"
+            android:src="@drawable/desktop_stop" />
+
+        </RelativeLayout>
+        <SeekBar
+            android:max="100"
+           
+            android:id="@+id/seekBar1"
+            android:layout_toRightOf="@+id/play_relative"
+            android:layout_width="fill_parent"
+            android:layout_centerVertical="true"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center" />
+    </RelativeLayout>
+
+</RelativeLayout>
