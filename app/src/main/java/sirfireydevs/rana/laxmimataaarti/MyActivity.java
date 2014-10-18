@@ -2,11 +2,17 @@ package sirfireydevs.rana.laxmimataaarti;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.internal.fa;
 
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,15 +24,20 @@ import android.os.Build;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import java.sql.Connection;
 
 
 public class MyActivity extends Activity {
 
 
+    public static boolean lyrics_lang;
     MediaPlayer player;
     Player play = null;
 
+   static  SharedPreferences pref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +48,8 @@ public class MyActivity extends Activity {
 //                    .commit();
 //        }
 
+pref=getSharedPreferences("pref",0);
+        this.lyrics_lang=pref.getBoolean("lyric_language", false);
         play = new Player();
 
 
@@ -57,8 +70,25 @@ public class MyActivity extends Activity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+        if (id == R.id.language) {
+            TextView tt= (TextView) findViewById(R.id.textview_lyrics);
+                lyrics_lang=!(lyrics_lang);
+            if(lyrics_lang==true){
+                tt.setText(R.string.lyrics);
+            }
+            if(lyrics_lang==false){
+                tt.setText(R.string.lyrics_hindi);
+            }
             return true;
+        }
+        if(id==R.id.share){
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT,"Check out \"Laxmi Aarti for Diwali\" :-\n" +
+                    "https://play.google.com/store/apps/details?id=sirfireydevs.rana.laxmimataaarti");
+            sendIntent.setType("text/plain");
+            startActivity(sendIntent);
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -76,6 +106,19 @@ public class MyActivity extends Activity {
                 Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
             return rootView;
+        }
+
+        @Override
+        public void onViewCreated(View view, Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            TextView tet= (TextView) getView().findViewById(R.id.textview_lyrics);
+
+            if(lyrics_lang==true) {
+                tet.setText(R.string.lyrics);
+            }
+            if(lyrics_lang==false){
+                tet.setText(R.string.lyrics_hindi);
+            }
         }
     }
 
@@ -263,14 +306,29 @@ public class MyActivity extends Activity {
             mAdView.setVisibility(View.VISIBLE);
 
 
-            // Create an ad request. Check logcat output for the hashed device ID to
-            // get test ads on a physical device. e.g.
-            // "Use AdRequest.Builder.addTestDevice("ABCDEF012345") to get test ads on this device."
             AdRequest adRequest = new AdRequest.Builder().build();
 
 
-            // Start loading the ad in the background.
-            mAdView.loadAd(adRequest);
+            ConnectivityManager cm =
+                    (ConnectivityManager)getView().getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+
+            NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+            boolean isConnected = activeNetwork != null &&
+                    activeNetwork.isConnectedOrConnecting();
+            //ca-app-pub-6576866415362092/8238247769
+
+            if(isConnected==true) {
+//                getView().findViewById(R.id.relParent_layout).setVisibility(View.VISIBLE);
+                mAdView.loadAd(adRequest);
+                mAdView.setVisibility(View.VISIBLE);
+            }
+            if(isConnected==false)
+            {
+                mAdView.setVisibility(View.GONE);
+            }
+
+
         }
 
         @Override

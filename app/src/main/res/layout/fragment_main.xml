@@ -7,28 +7,20 @@
     android:gravity="center_horizontal"
     tools:context="sirfireydevs.rana.laxmiaartifordiwali.MainActivity$PlaceholderFragment" >
 
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-      	
-        android:gravity="center"
-        android:text="Jai Maa Laxmi"
-        
-        android:textSize="25sp" />
+
  
     <ScrollView
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/lin_lay_mediabutton"
-        android:layout_below="@+id/heading" >
+        >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/lyrics"
+            android:id="@+id/textview_lyrics"
             android:textColor="#FFFFFF"
             android:textSize="20sp" />
     </ScrollView>
